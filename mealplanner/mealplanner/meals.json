@@ -1,0 +1,295 @@
+{
+    "breakfast": {
+      "veg": [
+        {
+          "name": "Oats with Milk and Mixed Nuts",
+          "calories": 570,
+          "protein": 19,
+          "carbs": 58.8,
+          "fats": 20.8,
+          "quantity": "2 katori (260gm), 20gm nuts"
+        },
+        {
+          "name": "Spinach Wrap with Paneer",
+          "calories": 475,
+          "protein": 24.3,
+          "carbs": 37.2,
+          "fats": 25.8,
+          "quantity": "170gm"
+        },
+        {
+          "name": "Quinoa Salad",
+          "calories": 171,
+          "protein": 5.2,
+          "carbs": 23,
+          "fats": 6.6,
+          "quantity": "200gm"
+        },
+        {
+          "name": "Sauteed Paneer",
+          "calories": 294,
+          "protein": 17,
+          "carbs": 2.2,
+          "fats": 24.2,
+          "quantity": "100gm"
+        },
+        {
+          "name": "Sattu with Milk",
+          "calories": 369,
+          "protein": 21,
+          "carbs": 42,
+          "fats": 16,
+          "quantity": "50gm Sattu, 250ml milk"
+        },
+        {
+          "name": "Curd",
+          "calories": 300,
+          "protein": 15.5,
+          "carbs": 15,
+          "fats": 20,
+          "quantity": "500gm"
+        },
+        {
+          "name": "Daliya",
+          "calories": 285,
+          "protein": 7,
+          "carbs": 46.8,
+          "fats": 8.8,
+          "quantity": "2 katori"
+        },
+        {
+          "name": "Cheela",
+          "calories": 218,
+          "protein": 8,
+          "carbs": 21.7,
+          "fats": 11,
+          "quantity": "2 pieces"
+        }
+      ],
+      "nonVeg": [
+        {
+          "name": "Boiled Eggs",
+          "calories": 387,
+          "protein": 31.4,
+          "carbs": 2.8,
+          "fats": 26.5,
+          "quantity": "5 eggs"
+        },
+        {
+          "name": "Boiled Egg Whites",
+          "calories": 85,
+          "protein": 18,
+          "carbs": 1,
+          "fats": 1,
+          "quantity": "5 egg whites"
+        },
+        {
+          "name": "Egg White Omelette",
+          "calories": 191,
+          "protein": 18,
+          "carbs": 1,
+          "fats": 11,
+          "quantity": "5 egg whites"
+        },
+        {
+          "name": "Chicken Salami",
+          "calories": 234,
+          "protein": 9.2,
+          "carbs": 10,
+          "fats": 17.5,
+          "quantity": "5 slices"
+        },
+        {
+          "name": "Chicken Sausage",
+          "calories": 250,
+          "protein": 23.3,
+          "carbs": 1.7,
+          "fats": 16.7,
+          "quantity": "10 sausages"
+        },
+        {
+          "name": "Egg Bhurji",
+          "calories": 438,
+          "protein": 19,
+          "carbs": 17,
+          "fats": 33,
+          "quantity": "4 eggs"
+        },
+        {
+          "name": "Egg Omelette",
+          "calories": 396,
+          "protein": 24,
+          "carbs": 5.5,
+          "fats": 32.5,
+          "quantity": "4 eggs"
+        }
+      ]
+    },
+    "lunch": {
+      "veg": [
+        {
+          "name": "Rice with Rajma",
+          "calories": 484,
+          "protein": 15.7,
+          "carbs": 83.8,
+          "fats": 9.7,
+          "quantity": "2 bowls"
+        },
+        {
+          "name": "Rice",
+          "calories": 581,
+          "protein": 32.2,
+          "carbs": 40.6,
+          "fats": 42.2,
+          "quantity": "124gm"
+        },
+        {
+          "name": "Paneer Bhurji",
+          "calories": 448,
+          "protein": 30,
+          "carbs": 15,
+          "fats": 40,
+          "quantity": "200gm"
+        },
+        {
+          "name": "Sweet Potato",
+          "calories": 76,
+          "protein": 1.5,
+          "carbs": 18,
+          "fats": 0,
+          "quantity": "100gm"
+        },
+        {
+          "name": "Chapati",
+          "calories": 170,
+          "protein": 6.1,
+          "carbs": 34.7,
+          "fats": 0.9,
+          "quantity": "2 chapatis"
+        },
+        {
+          "name": "Dal",
+          "calories": 230,
+          "protein": 13.6,
+          "carbs": 35.4,
+          "fats": 3.9,
+          "quantity": "2 bowls"
+        },
+        {
+          "name": "Soya Chunks",
+          "calories": 200,
+          "protein": 30,
+          "carbs": 18.5,
+          "fats": 0.3,
+          "quantity": "56gm"
+        },
+        {
+          "name": "Chole",
+          "calories": 307,
+          "protein": 13,
+          "carbs": 42,
+          "fats": 11,
+          "quantity": "2 bowls"
+        }
+      ],
+      "nonVeg": [
+        {
+          "name": "Brown Rice with Chicken",
+          "calories": 486,
+          "protein": 78.8,
+          "carbs": 23,
+          "fats": 9,
+          "quantity": "250gm chicken, 124gm brown rice"
+        },
+        {
+          "name": "Grilled Fish",
+          "calories": 278,
+          "protein": 40,
+          "carbs": 1,
+          "fats": 11,
+          "quantity": "240gm"
+        },
+        {
+          "name": "Fish Curry",
+          "calories": 295,
+          "protein": 34,
+          "carbs": 16,
+          "fats": 10,
+          "quantity": "300gm"
+        }
+      ]
+    },
+    "evening-snacks": {
+      "veg": [
+        {
+          "name": "Evening Snack Item 1"
+        },
+        {
+          "name": "Evening Snack Item 2"
+        }
+      ],
+      "nonVeg": [
+        {
+          "name": "Evening Snack Item 1"
+        },
+        {
+          "name": "Evening Snack Item 2"
+        }
+      ]
+    },
+    "dinner": {
+      "veg": [
+        {
+          "name": "Quinoa Stuffed Bell Pepper",
+          "calories": 495,
+          "protein": 20,
+          "carbs": 74,
+          "fats": 14,
+          "quantity": "2 pieces"
+        },
+        {
+          "name": "Paneer Tikka",
+          "calories": 344,
+          "protein": 20,
+          "carbs": 3,
+          "fats": 28,
+          "quantity": "5 pieces"
+        },
+        {
+          "name": "Mushroom with Lentils",
+          "calories": 248,
+          "protein": 15.2,
+          "carbs": 37.4,
+          "fats": 4.7,
+          "quantity": "1.5 cups"
+        }
+      ],
+      "nonVeg": [
+        {
+          "name": "Chicken Curry",
+          "calories": 320,
+          "protein": 31,
+          "carbs": 11,
+          "fats": 17,
+          "quantity": "300gm"
+        },
+        {
+          "name": "Egg Curry",
+          "calories": 298,
+          "protein": 21.5,
+          "carbs": 14,
+          "fats": 17,
+          "quantity": "3 eggs"
+        },
+        {
+          "name": "Baked Chicken",
+          "calories": 255,
+          "protein": 42.4,
+          "carbs": 0.3,
+          "fats": 8,
+          "quantity": "200gm"
+        }
+      ]
+    }
+  }
+  
