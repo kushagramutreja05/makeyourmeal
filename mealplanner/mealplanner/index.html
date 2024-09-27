@@ -184,7 +184,7 @@
         .modal-content {
             background: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 40px;
             width: 400px;
             max-height: 80%;
             overflow-y: auto;
@@ -223,6 +223,19 @@
             padding: 10px;
             font-size: 1rem;
             margin-bottom: 10px;
+        }
+
+        .modal-content .search-input {
+            width: 75%;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .bottom-right-container h3 {
+            display: none;
         }
 
         #download-button {
@@ -291,9 +304,22 @@
         <div class="bottom-right-container">
             <h2>Selected Meals</h2>
             <div id="calorie-display"></div>
-            <ul id="meal-list">
-                <!-- List of selected meals will appear here -->
-            </ul>
+            <h3 id="breakfast">Breakfast</h3>
+                <ul id="meal-list" class="break-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="lunch">Lunch</h3>
+                <ul id="meal-list" class="lunch-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="evening">Evening Snacks</h3>
+                <ul id="meal-list" class="evening-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="dinner">Dinner</h3>
+                <ul id="meal-list" class="dinner-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
         </div>
         <button id="download-button">Download Meals</button>
 
@@ -304,6 +330,10 @@
     <div id="meal-modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
+            <div class="search-container">
+                <input type="text" id="meal-search" class="search-input" placeholder="Search for meals..." oninput="filterMeals()">
+                <button class="search-button">Search</button>
+              </div>
             <h2 id="modal-title">Select Meal</h2>
             <select id="meal-options">
                 <!-- Options will be populated dynamically -->
@@ -314,235 +344,264 @@
 
     <script>
         const mealData = {
-    breakfast: [],
-    lunch: [],
-    'evening-snacks': [],
-    dinner: []
-};
+        breakfast: [],
+        lunch: [],
+        'evening-snacks': [],
+        dinner: []
+    };
 
-const recipes = {
-    breakfast: {
-        "Breakfast Item 1": "Recipe for Breakfast Item 1:\nIngredients:\n- Eggs\n- Toast\nInstructions:\n1. Cook the eggs.\n2. Toast the bread.",
-        "Breakfast Item 2": "Recipe for Breakfast Item 2:\nIngredients:\n- Oats\n- Milk\nInstructions:\n1. Boil oats with milk.\n2. Serve hot."
-    },
-    lunch: {
-        "Lunch Item 1": "Recipe for Lunch Item 1:\nIngredients:\n- Rice\n- Chicken Curry\nInstructions:\n1. Cook rice.\n2. Prepare the chicken curry.",
-        "Lunch Item 2": "Recipe for Lunch Item 2:\nIngredients:\n- Lentils\n- Vegetables\nInstructions:\n1. Cook lentils.\n2. Stir-fry vegetables."
-    },
-    'evening-snacks': {
-        "Evening Snack Item 1": "Recipe for Evening Snack Item 1:\nIngredients:\n- Bread\n- Peanut Butter\nInstructions:\n1. Spread peanut butter on bread.",
-        "Evening Snack Item 2": "Recipe for Evening Snack Item 2:\nIngredients:\n- Fruit\n- Yogurt\nInstructions:\n1. Mix yogurt and fruit together."
-    },
-    dinner: {
-        "Dinner Item 1": "Recipe for Dinner Item 1:\nIngredients:\n- Pasta\n- Tomato Sauce\nInstructions:\n1. Boil pasta.\n2. Add tomato sauce.",
-        "Dinner Item 2": "Recipe for Dinner Item 2:\nIngredients:\n- Paneer\n- Spinach\nInstructions:\n1. Cook paneer with spinach."
+    // New variable to store all meals after fetching
+    let allMeals = {
+        breakfast: { veg: [], nonVeg: [] },
+        lunch: { veg: [], nonVeg: [] },
+        'evening-snacks': { veg: [], nonVeg: [] },
+        dinner: { veg: [], nonVeg: [] }
+    };
+
+
+    function openModal(mealType) {
+        const modal = document.getElementById('meal-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const mealOptions = document.getElementById('meal-options');
+        const mealSearch = document.getElementById('meal-search');
+
+        // Update modal title based on meal type
+        modalTitle.textContent = `Select ${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`;
+
+        // Clear previous options
+        mealOptions.innerHTML = '';
+        mealSearch.value = '';
+
+        // Create the placeholder option
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select a meal...';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        mealOptions.appendChild(placeholderOption);
+
+        // Create optgroups for Veg and Non-Veg
+        const vegGroup = document.createElement('optgroup');
+        vegGroup.label = 'Veg';
+
+        const nonVegGroup = document.createElement('optgroup');
+        nonVegGroup.label = 'Non-Veg';
+
+        // Fetch meal options dynamically
+        fetch('meals.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Store all meals in the allMeals variable
+                allMeals = data;
+
+                // Accessing the correct meal type and categories (veg/nonVeg)
+                const vegMeals = data[mealType]?.veg || [];
+                const nonVegMeals = data[mealType]?.nonVeg || [];
+
+                // Append Veg meals
+                vegMeals.forEach(meal => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(meal); // Store meal details as JSON string
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    vegGroup.appendChild(option);
+                });
+
+                // Append Non-Veg meals
+                nonVegMeals.forEach(meal => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(meal); // Store meal details as JSON string
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    nonVegGroup.appendChild(option);
+                });
+
+                // Append optgroups to the select element
+                mealOptions.appendChild(vegGroup);
+                mealOptions.appendChild(nonVegGroup);
+            })
+            .catch(error => {
+                console.error('Error fetching meal data:', error);
+            });
+
+        modal.style.display = 'flex'; // Make sure the modal is visible
+
+        // Event listener to remove the placeholder option when a meal is selected
+        mealOptions.addEventListener('change', () => {
+            if (placeholderOption) {
+                mealOptions.removeChild(placeholderOption); // Remove the placeholder
+            }
+        });
     }
-};
 
 
-function openModal(mealType) {
-    const modal = document.getElementById('meal-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const mealOptions = document.getElementById('meal-options');
 
-    // Update modal title and options based on meal type
-    modalTitle.textContent = `Select ${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`;
-    mealOptions.innerHTML = getMealOptions(mealType);
 
-    modal.style.display = 'flex';
-}
 
 function closeModal() {
     document.getElementById('meal-modal').style.display = 'none';
 }
 
+document.querySelector('.search-button').addEventListener('click', e => {
+    if(document.querySelector('#meal-search').value.length === 0) {
+        alert('Please provide a search query..')
+    } else {
+        document.querySelector('#modal-title').style.display = 'block';
+        document.querySelector('#meal-options').style.display = 'block';
+    }   
+}) 
+
+let calorieInput = 0;
+let overflowCal = 0;
+
+document.getElementById('submit-calorie').addEventListener('click', function() {
+    const inputCalories = document.getElementById('calories-input').value;
+    if (!isNaN(inputCalories) && inputCalories > 0) {
+        calorieInput = parseInt(inputCalories);
+        document.getElementById('calorie-display').innerHTML = "<h2>Calories: " + calorieInput + "</h2>";
+    } else {
+        alert('Please enter a valid calorie amount.');
+    }
+});
+
 function addMeal() {
     const mealType = document.getElementById('modal-title').textContent.split(' ')[1].toLowerCase();
     const selectedMeal = document.getElementById('meal-options').value;
-    
-    // Add the selected meal to the appropriate meal type array
+
     if (selectedMeal) {
-        mealData[mealType].push(selectedMeal);
+        mealData[mealType].push(JSON.parse(selectedMeal));
         updateMealList();
+        updateCalorie(JSON.parse(selectedMeal));
     }
 
     closeModal();
 }
 
-const calorieMap = {
-    oatWithMilk : 570,
-    eggsAndToast : 350,
-}
-
-function getMealOptions(mealType) {
-    // Generate meal options based on the meal type
-    let options = '';
-    switch (mealType) {
-        case 'breakfast':
-        options = `
-    <optgroup label="Veg Meals">
-        <option value="Oats with Milk and (mixed nuts) Calories:570,Protein:19,Carbs:58.8,Fats:20.8,Quantity: 2 katori (260gm), 20gm nuts">
-            Oats with Milk and (mixed nuts) 2 katori (260gm), 20gm nuts - Calories: 570, Protein: 19g, Carbs: 58.8g, Fats: 20.8g
-        </option>
-        <option value="Spinach wrap with Paneer Calories:475,Protein:24.3,Carbs:37.2,Fats:25.8,Quantity: 170gm">
-            Spinach wrap with Paneer 170gm - Calories: 475, Protein: 24.3g, Carbs: 37.2g, Fats: 25.8g
-        </option>
-        <option value="Quinoa Salad Calories:171,Protein:5.2,Carbs:23,Fats:6.6,Quantity: 200gm">
-            Quinoa Salad 200gm - Calories: 171, Protein: 5.2g, Carbs: 23g, Fats: 6.6g
-        </option>
-        <option value="Sauteed Paneer Calories:294,Protein:17,Carbs:2.2,Fats:24.2,Quantity: 100gm">
-            Sauteed Paneer 100gm - Calories: 294, Protein: 17g, Carbs: 2.2g, Fats: 24.2g
-        </option>
-        <option value="Sattu with Milk Calories:369,Protein:21,Carbs:42,Fats:16,Quantity: 50gm Sattu, 250ml milk">
-            Sattu with Milk 50gm Sattu, 250ml milk - Calories: 369, Protein: 21g, Carbs: 42g, Fats: 16g
-        </option>
-        <option value="Curd Calories:300,Protein:15.5,Carbs:15,Fats:20,Quantity: 500gm">
-            Curd 500gm - Calories: 300, Protein: 15.5g, Carbs: 15g, Fats: 20g
-        </option>
-        <option value="Daliya Calories:285,Protein:7,Carbs:46.8,Fats:8.8,Quantity: 2 katori">
-            Daliya 2 katori - Calories: 285, Protein: 7g, Carbs: 46.8g, Fats: 8.8g
-      <option value="Cheela - Calories:218,Protein:8g,Carbs:21.7g,Fats:11g,Quantity: 2 Piece">
-            Cheela 2,Calories:218,Protein:8g,Carbs:21.7g,Fats:11g</option>
-    </optgroup>
-    <optgroup label="Non-Veg Meals">
-        <option value="Boiled Eggs Calories:387,Protein:31.4,Carbs:2.8,Fats:26.5,Quantity: 5 eggs">
-            Boiled Eggs 5 - Calories: 387, Protein: 31.4g, Carbs: 2.8g, Fats: 26.5g
-        </option>
-        <option value="Boiled Egg Whites Calories:85,Protein:18,Carbs:1,Fats:1,Quantity: 5 egg whites">
-            Boiled Egg Whites 5 - Calories: 85, Protein: 18g, Carbs: 1g, Fats: 1g
-        </option>
-        <option value="Egg White Omelette Calories:191,Protein:18,Carbs:1,Fats:11,Quantity: 5 egg whites">
-            Egg White Omelette 5 egg whites - Calories: 191, Protein: 18g, Carbs: 1g, Fats: 11g
-        </option>
-        <option value="Chicken Salami Calories:234,Protein:9.2,Carbs:10,Fats:17.5,Quantity: 5 slices">
-            Chicken Salami 5 slices - Calories: 234, Protein: 9.2g, Carbs: 10g, Fats: 17.5g
-        </option>
-        <option value="Chicken Sausage Calories:250,Protein:23.3,Carbs:1.7,Fats:16.7,Quantity: 10 sausages">
-            Chicken Sausage 10 - Calories: 250, Protein: 23.3g, Carbs: 1.7g, Fats: 16.7g
-        </option>
-        <option value="Egg Bhurji Calories:438,Protein:19,Carbs:17,Fats:33,Quantity: 4 eggs">
-            Egg Bhurji 4 - Calories: 438, Protein: 19g, Carbs: 17g, Fats: 33g
-        </option>
-        <option value="Egg Omelette Calories:396,Protein:24,Carbs:5.5,Fats:32.5,Quantity: 4 eggs">
-            Egg Omelette 4 - Calories: 396, Protein: 24g, Carbs: 5.5g, Fats: 32.5g
-        </option>
-    </optgroup>`;
-
-           
-            break;
-        case 'lunch':
-        options = `
-    <optgroup label="Veg Meals">
-        <option value="Rice with Rajma Calories:484,Protein:15.7,Carbs:83.8,Fats:9.7,Quantity: 2 bowl">
-            Rice with Rajma 2 katori - Calories: 484, Protein: 15.7g, Carbs: 83.8g, Fats: 9.7g
-        </option>
-        <option value="Rice Calories:581,Protein:32.2,Carbs:40.6,Fats:42.2,Quantity: 124gm">
-            Rice 124gm - Calories: 581, Protein: 32.2g, Carbs: 40.6g, Fats: 42.2g
-        </option>
-        <option value="Paneer Bhurji Calories:448,Protein:30,Carbs:15,Fats:40,Quantity: 200gm">
-            Paneer Bhurji 200gm - Calories: 448, Protein: 30g, Carbs: 15g, Fats: 40g
-        </option>
-        <option value="Sweet Potato Calories:76,Protein:1.5,Carbs:18,Fats:0,Quantity: 100gm">
-            Sweet Potato 100gm - Calories: 76, Protein: 1.5g, Carbs: 18g, Fats: 0g
-        </option>
-        <option value="Chapati Calories:170,Protein:6.1,Carbs:34.7,Fats:0.9,Quantity: 2 chapatis">
-            Chapati 2 - Calories: 170, Protein: 6.1g, Carbs: 34.7g, Fats: 0.9g
-        </option>
-        <option value="Dal Calories:230,Protein:13.6,Carbs:35.4,Fats:3.9,Quantity: 2 bowl">
-            Dal 2 katori - Calories: 230, Protein: 13.6g, Carbs: 35.4g, Fats: 3.9g
-        </option>
-        <option value="Soya Chunks Calories:200,Protein:30,Carbs:18.5,Fats:0.3,Quantity: 56gm">
-            Soya Chunks 56gm - Calories: 200, Protein: 30g, Carbs: 18.5g, Fats: 0.3g
-        <option value="Chole - Calories:307,Protein:13g,Carbs:42g,Fats:11g,Quantity: 2 bowl">
-            Chole 2 bowl-Calories:307,Protein:13g,Carbs:42g,Fats:11g</option>
-    </optgroup>
-    <optgroup label="Non-Veg Meals">
-        <option value="Brown Rice with Chicken Calories:486,Protein:78.8,Carbs:23,Fats:9,Quantity: 250gm chicken, 124gm brown rice">
-            Brown Rice with Chicken 250gm chicken, 124gm brown rice - Calories: 486, Protein: 78.8g, Carbs: 23g, Fats: 9g
-        </option>
-        <option value="Grilled Fish Calories:278,Protein:40,Carbs:1,Fats:11,Quantity: 240gm">
-            Grilled Fish 240gm - Calories: 278, Protein: 40g, Carbs: 1g, Fats: 11g
-        </option>
-        <option value="Fish Curry Calories:295,Protein:34,Carbs:16,Fats:10,Quantity: 300gm">
-            Fish Curry 300gm - Calories: 295, Protein: 34g, Carbs: 16g, Fats: 10g
-        </option>
-    </optgroup>`;
-            break;
-        case 'evening-snacks':
-            options = `<option value="Evening Snack Item 1">Evening Snack Item 1</option>
-                       <option value="Evening Snack Item 2">Evening Snack Item 2</option>`;
-            break;
-        case 'dinner':
-        options = `
-    <optgroup label="Veg Meals">
-        <option value="Quinoa Stuffed Bell Pepper Calories:495,Protein:20,Carbs:74,Fats:14,Quantity: 2 pieces">
-            Quinoa Stuffed Bell Pepper 2 pieces - Calories: 495, Protein: 20g, Carbs: 74g, Fats: 14g
-        </option>
-        <option value="Paneer Tikka Calories:344,Protein:20,Carbs:3,Fats:28,Quantity: 5 pieces">
-            Paneer Tikka 5 pieces - Calories: 344, Protein: 20g, Carbs: 3g, Fats: 28g
-        </option>
-        <option value="Mushroom with Lentils Calories:248,Protein:15.2,Carbs:37.4,Fats:4.7,Quantity: 1.5 cups">
-            Mushroom with Lentils 1.5 cups - Calories: 248, Protein: 15.2g, Carbs: 37.4g, Fats: 4.7g
-        </option>
-    </optgroup>
-    <optgroup label="Non-Veg Meals">
-        <option value="Chicken Curry Calories:320,Protein:31,Carbs:11,Fats:17,Quantity: 300gm">
-            Chicken Curry 300gm - Calories: 320, Protein: 31g, Carbs: 11g, Fats: 17g
-        </option>
-        <option value="Egg Curry Calories:298,Protein:21.5,Carbs:14,Fats:17,Quantity: 3 eggs">
-            Egg Curry 3 eggs - Calories: 298, Protein: 21.5g, Carbs: 14g, Fats: 17g
-        </option>
-        <option value="Baked Chicken Calories:255,Protein:42.4,Carbs:0.3,Fats:8,Quantity: 200gm">
-            Baked Chicken 200gm - Calories: 255, Protein: 42.4g, Carbs: 0.3g, Fats: 8g
-        </option>
-    </optgroup>`;
-            break;
+function updateCalorie(meal) {
+    if(overflowCal > 0) {
+        overflowCal+=meal.calories;
+        document.getElementById('calorie-display').innerHTML = "<h2>Calorie Goal Complete (Overflow: " + overflowCal + ")</h2>";
+    } else if(calorieInput-meal.calories < 0) {
+        overflowCal = meal.calories - calorieInput;
+        document.getElementById('calorie-display').innerHTML = "<h2>Calorie Goal Complete (Overflow: " + overflowCal + ")</h2>";
+    } else {
+        calorieInput -= meal.calories;
+    document.getElementById('calorie-display').innerHTML = "<h2>Remaining Calories: " + calorieInput + "</h2>";
     }
-    return options;
 }
 
-let calorieUsed = 0;
+document.querySelector('.search-input').addEventListener('focus', e => {
+    document.querySelector('#modal-title').style.display = 'none';
+    document.querySelector('#meal-options').style.display = 'none';
+})
 
-function updateMealList() {
-    const mealList = document.getElementById('meal-list');
-    mealList.innerHTML = '';
+function filterMeals() {
+        const input = document.getElementById('meal-search').value.toLowerCase();
+        const mealOptions = document.getElementById('meal-options');
 
-    // Loop through each meal type and add to the list
-    for (const [mealType, items] of Object.entries(mealData)) {
-        if (items.length > 0) {
-            // Create a section for each meal type
-            const section = document.createElement('div');
-            section.innerHTML = `<strong>${mealType.charAt(0).toUpperCase() + mealType.slice(1)}:</strong>`;
-            const list = document.createElement('ul');
+        // Determine the current meal type from the modal title
+        const modalTitle = document.getElementById('modal-title').textContent;
+        const mealType = modalTitle.split(' ')[1].toLowerCase();
 
-            items.forEach(item => {
-                console.log("same")
-                if(item === "Oats with Milk and (mixed nuts) 2 katori (260gm), 20gm nuts - Calories: 570, Protein: 19g, Carbs: 58.8g, Fats: 20.8g"){
-                    calorieUsed = 530;
-                    document.getElementById('calorie-display').innerHTML = "<h3>Calories: " + (calorieInput - calorieUsed) + "</h3>";
-                }
-                const listItem = document.createElement('li');
-                listItem.textContent = item;
-                list.appendChild(listItem);
-            });
+        // Clear current options
+        mealOptions.innerHTML = '';
 
-            section.appendChild(list);
-            mealList.appendChild(section);
+        // Re-add the placeholder option
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select a meal...';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        mealOptions.appendChild(placeholderOption);
+
+        // Create optgroups again
+        const vegGroup = document.createElement('optgroup');
+        vegGroup.label = 'Veg';
+
+        const nonVegGroup = document.createElement('optgroup');
+        nonVegGroup.label = 'Non-Veg';
+
+        // Fetch the relevant meals from allMeals
+        const vegMeals = allMeals[mealType]?.veg || [];
+        const nonVegMeals = allMeals[mealType]?.nonVeg || [];
+
+        // Filter Veg meals
+        vegMeals.forEach(meal => {
+            if (meal.name.toLowerCase().includes(input)) {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(meal);
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                vegGroup.appendChild(option);
+            }
+        });
+
+        // Filter Non-Veg meals
+        nonVegMeals.forEach(meal => {
+            if (meal.name.toLowerCase().includes(input)) {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(meal);
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                nonVegGroup.appendChild(option);
+            }
+        });
+
+        // Append optgroups only if they have options
+        if (vegGroup.children.length > 0) {
+            mealOptions.appendChild(vegGroup);
+        }
+        if (nonVegGroup.children.length > 0) {
+            mealOptions.appendChild(nonVegGroup);
+        }
+
+        // If no meals match the search, provide feedback
+        if (vegGroup.children.length === 0 && nonVegGroup.children.length === 0) {
+            const noOption = document.createElement('option');
+            noOption.value = '';
+            noOption.textContent = 'No meals found.';
+            noOption.disabled = true;
+            mealOptions.appendChild(noOption);
         }
     }
-}
-document.getElementById('submit-calorie').addEventListener('click', function() {
-    // Get the calorie input value
-    var calorieInput = document.getElementById('calories-input').value;
-    
-    // Check if input is not empty
-    if(calorieInput) {
-        // Display the calorie input at the top of the bottom-right container
-        document.getElementById('calorie-display').innerHTML = "<h3>Calories: " + calorieInput + "</h3>";
-    } else {
-        alert("Please enter a calorie amount.");
+
+
+    function updateMealList() {
+        const breakfastList = document.querySelector('.break-list');
+        breakfastList.innerHTML = '';
+        const lunchList = document.querySelector('.lunch-list');
+        lunchList.innerHTML = '';
+        const eveningList = document.querySelector('.evening-list');
+        eveningList.innerHTML = '';
+        const dinnerList = document.querySelector('.dinner-list');
+        dinnerList.innerHTML = '';
+
+        for (const [mealType, meals] of Object.entries(mealData)) {
+            meals.forEach(meal => {
+                const li = document.createElement('li');
+                li.textContent = `-${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                switch(mealType) {
+                    case "breakfast":
+                        document.getElementById('breakfast').style.display = "block";
+                        breakfastList.appendChild(li);
+                        break;
+                    case "lunch":
+                    document.getElementById('lunch').style.display = "block";
+                        lunchList.appendChild(li);
+                        break;
+                    case "evening-snacks":
+                    document.getElementById('evening').style.display = "block";
+                        eveningList.appendChild(li);
+                        break;
+                    case "dinner":
+                    document.getElementById('dinner').style.display = "block";
+                        dinnerList.appendChild(li)
+                        break;
+                }
+            });
+        }
     }
-});
 document.getElementById('download-button').addEventListener('click', function() {
     let textContent = 'Selected Meals and Recipes:\n\n';
 
@@ -561,10 +620,6 @@ document.getElementById('download-button').addEventListener('click', function() 
             textContent += `${mealType.charAt(0).toUpperCase() + mealType.slice(1)}:\n`;
             items.forEach(item => {
                 textContent += `- ${item}\n`;
-                // Append the recipe for each item
-                if (recipes[mealType][item]) {
-                    textContent += `\n${recipes[mealType][item]}\n\n`;
-                }
             });
             textContent += '\n';
         }
@@ -589,9 +644,6 @@ document.getElementById('download-button').addEventListener('click', function() 
     URL.revokeObjectURL(url);
 }
 });
-
-
-
     </script>
 </body>
 </html>
