@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Gowun+Batang:wght@400;700&display=swap');
         body {
-            background: url('https://modernquests.com/cdn/shop/files/7mm-daily-meal-planner-lemonade-1.jpg?v=1690046563&width=2048');
+            background-color: rgb(255,255,255) !important;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
@@ -256,10 +257,114 @@
     background-color: #4a9a2a;
 }
 
+table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        table, th, td {
+            border: none;
+        }
+        th {
+            text-align: center;
+            border-bottom: 1px solid rgb(219,219,219);
+            background-color: rgb(208, 221, 203);
+        }
+        td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        #hidden-table {
+            display: none;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Keeps the image container at the top */
+    align-items: center;
+    min-height: 100vh; /* Ensures the content fits the screen */
+    position: relative;
+}
+            .calorie-container {
+                font-size: 16px;
+            }
+            .image-container {
+    flex-shrink: 0; /* Prevents the image from shrinking */
+    width: 100%;
+}
+            .image-container img {
+                max-height: 18vh;
+            }
+
+            body {
+                font-size: 0.7rem;
+            }
+    .meal-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .bottom-right-container {
+    max-height: 50vh; /* Prevents it from growing too large */
+    overflow-y: auto; /* Adds a scrollbar if content overflows */
+    position: relative;
+    width: 90%; 
+    max-width: 300px; 
+    bottom: 20px;
+    right: 10px;
+}
+
+    #download-button {
+        position: sticky;
+        right: 0;
+        bottom: 0;
+        margin-right: 10px; /* Space from the right edge */
+        margin-bottom: 10px;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    /* Adjust meal card dimensions */
+    .meal-card {
+        height: 100px; /* Reduced height for smaller screens */
+    }
+
+    /* Ensure meal card text is visible */
+    .meal-text {
+        font-size: 0.9rem; /* Smaller font size for smaller screens */
+    }
+    
+    /* Other adjustments as needed */
+}
+
+    #hidden-table h2 {
+        font-family: "Gowun Batang", serif;
+  font-weight: 400;
+  font-style: normal;
+    }
+
+    #mp {
+        font-size: 48px;
+        font-family: "Cabin Sketch", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+    }
+
+
+
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
+        <div class="image-container">
+            <img src="./images/bg.jpeg" alt="bg">
+        </div>
          <!-- Calorie input container -->
          <div class="calorie-container">
             <h2>Enter Your Daily Calorie Intake</h2>
@@ -320,8 +425,8 @@
                 <ul id="meal-list" class="dinner-list">
                     <!-- List of selected meals will appear here -->
                 </ul>
+                <button id="download-button">Download Meals</button>
         </div>
-        <button id="download-button">Download Meals</button>
 
     </div>
     
@@ -341,6 +446,22 @@
             <button onclick="addMeal()">Add Meal</button>
         </div>
     </div>
+    <div id="hidden-table">
+        <h1><span style="color: rgb(54,78,79)">FitForLife 365</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
+        <h2></h2>
+        <table id="breakfast-table">
+            <tbody></tbody>
+        </table>
+        <table id="lunch-table">
+            <tbody></tbody>
+        </table>
+        <table id="evening-snack-table">
+            <tbody></tbody>
+        </table>
+        <table id="dinner-table">
+            <tbody></tbody>
+        </table>
+    </div>
 
     <script>
         const mealData = {
@@ -358,8 +479,18 @@
         dinner: { veg: [], nonVeg: [] }
     };
 
+    let inpCal = 0;
+let calorieInput = 0;
+let overflowCal = 0;
+let inputCalories = 0;
+let totalCalories = 0;
+
 
     function openModal(mealType) {
+        if(inpCal===0) {
+            alert("Please enter calories...")
+            return;
+        }
         const modal = document.getElementById('meal-modal');
         const modalTitle = document.getElementById('modal-title');
         const mealOptions = document.getElementById('meal-options');
@@ -432,7 +563,7 @@
         // Event listener to remove the placeholder option when a meal is selected
         mealOptions.addEventListener('change', () => {
             if (placeholderOption) {
-                mealOptions.removeChild(placeholderOption); // Remove the placeholder
+                placeholderOption.remove(); // Remove the placeholder
             }
         });
     }
@@ -454,13 +585,11 @@ document.querySelector('.search-button').addEventListener('click', e => {
     }   
 }) 
 
-let calorieInput = 0;
-let overflowCal = 0;
-
 document.getElementById('submit-calorie').addEventListener('click', function() {
-    const inputCalories = document.getElementById('calories-input').value;
+    inputCalories = document.getElementById('calories-input').value;
     if (!isNaN(inputCalories) && inputCalories > 0) {
         calorieInput = parseInt(inputCalories);
+        inpCal = calorieInput
         document.getElementById('calorie-display').innerHTML = "<h2>Calories: " + calorieInput + "</h2>";
     } else {
         alert('Please enter a valid calorie amount.');
@@ -481,6 +610,7 @@ function addMeal() {
 }
 
 function updateCalorie(meal) {
+    totalCalories += meal.calories;
     if(overflowCal > 0) {
         overflowCal+=meal.calories;
         document.getElementById('calorie-display').innerHTML = "<h2>Calorie Goal Complete (Overflow: " + overflowCal + ")</h2>";
@@ -603,8 +733,7 @@ function filterMeals() {
         }
     }
 document.getElementById('download-button').addEventListener('click', function() {
-    let textContent = 'Selected Meals and Recipes:\n\n';
-
+    let textContent = "";
     let flag = 0;
 
     for(const[mealType, items] of Object.entries(mealData)) {
@@ -616,34 +745,70 @@ document.getElementById('download-button').addEventListener('click', function() 
     } else {
     // Format the text content by meal type, including the recipe for each selected meal
     for (const [mealType, items] of Object.entries(mealData)) {
-        if (items.length > 0) {
-            textContent += `${mealType.charAt(0).toUpperCase() + mealType.slice(1)}:\n`;
-            items.forEach(item => {
-                textContent += `- ${item}\n`;
-            });
-            textContent += '\n';
+    let table;
+    let tbody;
+    if (items.length > 0) {
+        if (mealType === "breakfast") {
+            table = document.querySelector('#breakfast-table');
+        } else if (mealType === "lunch") {
+            table = document.querySelector('#lunch-table');
+        } else if (mealType === "evening-snacks") {
+            table = document.querySelector('#evening-snack-table');
+        } else {
+            table = document.querySelector('#dinner-table');
+        }
+
+        // Find the tbody
+        tbody = table.querySelector('tbody');
+        const type = mealType.toUpperCase();
+        console.log(type)
+        tbody.innerHTML += `
+            <tr>
+                <th rowspan="${items.length}" style="background-color: ${(type==="BREAKFAST" || type==="EVENING-SNACKS") ? "rgb(208,221,203)" : "rgb(236,231,221)"}">${type}</th>
+                <td>${items[0].name} (Calories: ${items[0].calories} Proteins: ${items[0].protein} Carbs: ${items[0].carbs} Fats: ${items[0].fats})</td>
+            </tr>
+        `;
+        for (let i = 1; i < items.length; i++) {
+            tbody.innerHTML += `<tr>
+                <td>${items[i].name} (Calories: ${items[i].calories} Proteins: ${items[i].protein} Carbs: ${items[i].carbs} Fats: ${items[i].fats})</td>
+            </tr>`;
         }
     }
+}
 
-    // Create a blob with the text content
-    const blob = new Blob([textContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    const table = document.getElementById('hidden-table');
+    let th2 = table.querySelector('h2');
 
-    const date = new Date().toLocaleDateString();
-    console.log(date);
-
-    // Create a temporary link element
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Meal for ${date}.txt`;
-    document.body.appendChild(a);
-    a.click();
-
-    // Clean up
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    th2.innerHTML = `
+        Input Calories = ${inpCal}<br/>
+        Total Calories Selected = ${totalCalories}<br/>
+        ${overflowCal>0 ? "Overflow Calories = " + overflowCal : ""}
+    `
+            const date = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            // Temporarily make the table visible
+            table.style.display = 'block';
+            
+            // Use html2pdf to convert the table to PDF
+            const opt = {
+                margin:       0.2,
+                filename:     `Meal Plan(${date}) by FitForLife365.pdf`,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 3, dpi: 300, letterRendering: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            html2pdf().from(table).set(opt).save().then(() => {
+                // After PDF generation, hide the table again
+                document.querySelectorAll('#hidden-table table').forEach(table => {
+                    table.querySelector('tbody').innerHTML = "";
+                })
+                console.log(document.querySelector('#hidden-table'));
+                table.style.display = 'none';
+            });
 }
 });
+
+
     </script>
 </body>
 </html>
