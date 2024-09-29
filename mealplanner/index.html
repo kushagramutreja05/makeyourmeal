@@ -8,9 +8,10 @@
         /* Global styling */
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background: white;
             font-family: 'Poppins', Arial, sans-serif, Helvetica;
@@ -44,7 +45,7 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        .icon img:hover {
+        .icon img:hover, .icon img:focus {
             transform: scale(1.1);
         }
 
@@ -89,19 +90,27 @@
             width: 100%;
             text-align: center;
             font-size: 14px;
-            color: #fff;
+            color: black;
             font-weight: 300;
             letter-spacing: 0.5px;
         }
 
         footer a {
-            color: #fff;
+            color: green;
             text-decoration: none;
             transition: color 0.2s;
         }
 
         footer a:hover {
             color: #ffb3b3;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .icon {
+                width: 200px;
+                height: 200px;
+                margin-left: 20%;
+            }
         }
     </style>
 </head>
