@@ -5,125 +5,810 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
     <style>
-        /* Global styling */
+        @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Gowun+Batang:wght@400;700&display=swap');
         body {
+            background-color: rgb(255,255,255) !important;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             margin: 0;
-            background: white;
-            font-family: 'Poppins', Arial, sans-serif, Helvetica;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
         }
 
         .container {
-            text-align: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Icon Container */
-        .icon {
-            width: 400px;
-            height: 400px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            background-color: black;
-            border-radius: 50%;
+            width: 80%;
+            max-width: 1000px; /* Adjusted max width to fit smaller cards */
+            margin: 20px;
+        }
+        .calorie-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .calorie-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .calorie-container input {
+            width: 80%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .calorie-container a {
+            font-size: 0.9rem;
+            color: #67b636;
+            text-decoration: none;
+        }
+
+        .calorie-container a:hover {
+            text-decoration: underline;
+        }
+
+        .meal-container {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 3%;
+    padding: 20px;
+    box-shadow: 10px 10px 30px -1px rgba(0,0,0,0.75);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px; /* Reduced horizontal gap between cards */
+    row-gap: 20px; /* Adjust vertical gap if needed */
+    width: 100%;
+    overflow-y: auto;
+    max-width: 1000px; /* Ensures container width fits smaller cards */
+    margin-bottom: 30px;
+    justify-items: center;
+    word-wrap: break-word; /* Center cards horizontally */
+}
+
+
+        .meal-card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 300px; /* Reduced width of the card */
+        }
+
+        .meal-card {
+            width: 100%;
+            height: 250px; /* Reduced height of the card */
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-size: cover;
+            background-position: center;
+            position: relative;
             overflow: hidden;
         }
 
-        /* Image Styling */
-        .icon img {
+        .meal-card:hover > img {
+            transform: scale(1.1);
+            transition: transform 0.3s;
+        }
+
+        .meal-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures the image maintains its aspect ratio */
-            transition: transform 0.3s ease-in-out;
+            object-fit: cover; /* Ensures the image covers the card without distortion */
         }
 
-        .icon img:hover, .icon img:focus {
-            transform: scale(1.1);
-        }
-
-        /* Title Styling */
-        .title {
-            font-size: 52px;
-            font-weight: bold;
-            margin: 20px 0 10px;
-            letter-spacing: 2px;
-            color: #333;
-        }
-
-        .title span {
-            color: #67b636;
-        }
-
-        /* Button Styling */
-        .get-started-btn {
+        .meal-card button {
             background-color: #67b636;
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 24px;
+            padding: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            margin-top: 30px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
-        }
-
-        .get-started-btn:hover {
-            background-color: #5ca428;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
-        }
-
-        /* Footer */
-        footer {
+            font-size: 1rem;
+            transition: background-color 0.3s;
             position: absolute;
             bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .meal-card-wrapper:hover .meal-card button {
+            display: block;
+        }
+
+        .meal-text {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            background: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-right-container {
+    position: fixed;
+    bottom: 60px; /* Adjusted to make room for the button */
+    right: 20px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    word-wrap: break-word;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+}
+
+        .bottom-right-container h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .bottom-right-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .bottom-right-container li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            width: 400px;
+            max-height: 80%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content button {
+            background-color: #67b636;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #4a9a2a;
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-content select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-content .search-input {
+            width: 75%;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .bottom-right-container h3 {
+            display: none;
+        }
+
+        #download-button {
+    position: fixed;
+    bottom: 20px; /* Positioned directly below the container */
+    right: 20px;
+    background-color: #67b636;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#download-button:hover {
+    background-color: #4a9a2a;
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        table, th, td {
+            border: none;
+        }
+        th {
             text-align: center;
-            font-size: 14px;
-            color: black;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgb(219,219,219);
+            background-color: rgb(208, 221, 203);
+        }
+        td {
+            padding: 8px;
+            text-align: left;
         }
 
-        footer a {
-            color: green;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        footer a:hover {
-            color: #ffb3b3;
+        #hidden-table {
+            display: none;
         }
 
         @media only screen and (max-width: 768px) {
-            .icon {
-                width: 200px;
-                height: 200px;
-                margin-left: 20%;
+            .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Keeps the image container at the top */
+    align-items: center;
+    min-height: 100vh; /* Ensures the content fits the screen */
+    position: relative;
+}
+            .calorie-container {
+                font-size: 16px;
             }
-        }
+            .image-container {
+    flex-shrink: 0; /* Prevents the image from shrinking */
+    width: 100%;
+}
+            .image-container img {
+                max-height: 18vh;
+            }
+
+            body {
+                font-size: 0.7rem;
+            }
+    .meal-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .bottom-right-container {
+    max-height: 50vh; /* Prevents it from growing too large */
+    overflow-y: auto; /* Adds a scrollbar if content overflows */
+    position: relative;
+    width: 90%; 
+    max-width: 300px; 
+    bottom: 20px;
+    right: 10px;
+}
+
+    #download-button {
+        position: sticky;
+        right: 0;
+        bottom: 0;
+        margin-right: 10px; /* Space from the right edge */
+        margin-bottom: 10px;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    /* Adjust meal card dimensions */
+    .meal-card {
+        height: 100px; /* Reduced height for smaller screens */
+    }
+
+    /* Ensure meal card text is visible */
+    .meal-text {
+        font-size: 0.9rem; /* Smaller font size for smaller screens */
+    }
+    
+    /* Other adjustments as needed */
+}
+
+    #hidden-table h2 {
+        font-family: "Gowun Batang", serif;
+  font-weight: 400;
+  font-style: normal;
+    }
+
+    #mp {
+        font-size: 48px;
+        font-family: "Cabin Sketch", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+    }
+
+
+
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div class="icon">
-            <img src="images/plate-icon.png" alt="Meal Planner Icon">
+        <div class="image-container">
+            <img src="./images/bg.jpeg" alt="bg">
         </div>
-        <div class="title">Meal<span>Planner</span></div>
-        <button class="get-started-btn" onclick="window.location.href='index.html'" aria-label="Get Started">Get Started</button>
+         <!-- Calorie input container -->
+         <div class="calorie-container">
+            <h2>Enter Your Daily Calorie Intake</h2>
+            <input type="number" id="calories-input" placeholder="Enter your calories">
+            <button id="submit-calorie" type="button">Submit</button> 
+            <a href="https://kushagramutreja05-tdecalculator-tdeapp-qo8weh.streamlit.app" target="_blank">
+                Calculate your calories
+            </a>
+           
+        </div>
+        <div class="meal-container">
+            <div class="meal-card-wrapper">
+                <div class="meal-card" style="background-image: url('images/breakfast.jpg');">
+                    <img src="images/breakfast.jpg" alt="Breakfast">
+                    <button onclick="openModal('breakfast')">Add Meal</button>
+                </div>
+                <div class="meal-text">Breakfast</div>
+            </div>
+            <div class="meal-card-wrapper">
+                <div class="meal-card" style="background-image: url('images/lunch.jpg');">
+                    <img src="images/lunch.jpg" alt="Lunch">
+                    <button onclick="openModal('lunch')">Add Meal</button>
+                </div>
+                <div class="meal-text">Lunch</div>
+            </div>
+            <div class="meal-card-wrapper">
+                <div class="meal-card" style="background-image: url('images/evening-snacks.jpg');">
+                    <img src="images/evening-snacks.jpg" alt="Evening Snacks">
+                    <button onclick="openModal('evening-snacks')">Add Meal</button>
+                </div>
+                <div class="meal-text">Evening Snacks</div>
+            </div>
+            <div class="meal-card-wrapper">
+                <div class="meal-card" style="background-image: url('images/dinner.jpg');">
+                    <img src="images/dinner.jpg" alt="Dinner">
+                    <button onclick="openModal('dinner')">Add Meal</button>
+                </div>
+                <div class="meal-text">Dinner</div>
+            </div>
+        </div>
+
+        <div class="bottom-right-container">
+            <h2>Selected Meals</h2>
+            <div id="calorie-display"></div>
+            <h3 id="breakfast">Breakfast</h3>
+                <ul id="meal-list" class="break-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="lunch">Lunch</h3>
+                <ul id="meal-list" class="lunch-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="evening">Evening Snacks</h3>
+                <ul id="meal-list" class="evening-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <h3 id="dinner">Dinner</h3>
+                <ul id="meal-list" class="dinner-list">
+                    <!-- List of selected meals will appear here -->
+                </ul>
+                <button id="download-button">Download Meals</button>
+        </div>
+
     </div>
-    <footer>
-        Designed with ♥ by <a href="https://fitforlife365.in">FitForLife365</a>
-    </footer>
+    
+
+    <!-- Modal for meal selection -->
+    <div id="meal-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="search-container">
+                <input type="text" id="meal-search" class="search-input" placeholder="Search for meals..." oninput="filterMeals()">
+                <button class="search-button">Search</button>
+              </div>
+            <h2 id="modal-title">Select Meal</h2>
+            <select id="meal-options">
+                <!-- Options will be populated dynamically -->
+            </select>
+            <button onclick="addMeal()">Add Meal</button>
+        </div>
+    </div>
+    <div id="hidden-table">
+        <h1><span style="color: rgb(54,78,79)">FitForLife 365</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
+        <h2></h2>
+        <table id="breakfast-table">
+            <tbody></tbody>
+        </table>
+        <table id="lunch-table">
+            <tbody></tbody>
+        </table>
+        <table id="evening-snack-table">
+            <tbody></tbody>
+        </table>
+        <table id="dinner-table">
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const mealData = {
+        breakfast: [],
+        lunch: [],
+        'evening-snacks': [],
+        dinner: []
+    };
+
+    // New variable to store all meals after fetching
+    let allMeals = {
+        breakfast: { veg: [], nonVeg: [] },
+        lunch: { veg: [], nonVeg: [] },
+        'evening-snacks': { veg: [], nonVeg: [] },
+        dinner: { veg: [], nonVeg: [] }
+    };
+
+    let inpCal = 0;
+let calorieInput = 0;
+let overflowCal = 0;
+let inputCalories = 0;
+let totalCalories = 0;
+
+
+    function openModal(mealType) {
+        if(inpCal===0) {
+            alert("Please enter calories...")
+            return;
+        }
+        const modal = document.getElementById('meal-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const mealOptions = document.getElementById('meal-options');
+        const mealSearch = document.getElementById('meal-search');
+
+        // Update modal title based on meal type
+        modalTitle.textContent = `Select ${mealType.charAt(0).toUpperCase() + mealType.slice(1)}`;
+
+        // Clear previous options
+        mealOptions.innerHTML = '';
+        mealSearch.value = '';
+
+        // Create the placeholder option
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select a meal...';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        mealOptions.appendChild(placeholderOption);
+
+        // Create optgroups for Veg and Non-Veg
+        const vegGroup = document.createElement('optgroup');
+        vegGroup.label = 'Veg';
+
+        const nonVegGroup = document.createElement('optgroup');
+        nonVegGroup.label = 'Non-Veg';
+
+        // Fetch meal options dynamically
+        fetch('meals.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Store all meals in the allMeals variable
+                allMeals = data;
+
+                // Accessing the correct meal type and categories (veg/nonVeg)
+                const vegMeals = data[mealType]?.veg || [];
+                const nonVegMeals = data[mealType]?.nonVeg || [];
+
+                // Append Veg meals
+                vegMeals.forEach(meal => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(meal); // Store meal details as JSON string
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    vegGroup.appendChild(option);
+                });
+
+                // Append Non-Veg meals
+                nonVegMeals.forEach(meal => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(meal); // Store meal details as JSON string
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    nonVegGroup.appendChild(option);
+                });
+
+                // Append optgroups to the select element
+                mealOptions.appendChild(vegGroup);
+                mealOptions.appendChild(nonVegGroup);
+            })
+            .catch(error => {
+                console.error('Error fetching meal data:', error);
+            });
+
+        modal.style.display = 'flex'; // Make sure the modal is visible
+
+        // Event listener to remove the placeholder option when a meal is selected
+        mealOptions.addEventListener('change', () => {
+            if (placeholderOption) {
+                placeholderOption.remove(); // Remove the placeholder
+            }
+        });
+    }
+
+
+
+
+
+function closeModal() {
+    document.getElementById('meal-modal').style.display = 'none';
+}
+
+document.querySelector('.search-button').addEventListener('click', e => {
+    if(document.querySelector('#meal-search').value.length === 0) {
+        alert('Please provide a search query..')
+    } else {
+        document.querySelector('#modal-title').style.display = 'block';
+        document.querySelector('#meal-options').style.display = 'block';
+    }   
+}) 
+
+document.getElementById('submit-calorie').addEventListener('click', function() {
+    inputCalories = document.getElementById('calories-input').value;
+    if (!isNaN(inputCalories) && inputCalories > 0) {
+        calorieInput = parseInt(inputCalories);
+        inpCal = calorieInput
+        document.getElementById('calorie-display').innerHTML = "<h2>Calories: " + calorieInput + "</h2>";
+    } else {
+        alert('Please enter a valid calorie amount.');
+    }
+});
+
+function addMeal() {
+    const mealType = document.getElementById('modal-title').textContent.split(' ')[1].toLowerCase();
+    const selectedMeal = document.getElementById('meal-options').value;
+
+    if (selectedMeal) {
+        mealData[mealType].push(JSON.parse(selectedMeal));
+        updateMealList();
+        updateCalorie(JSON.parse(selectedMeal));
+    }
+
+    closeModal();
+}
+
+function updateCalorie(meal) {
+    totalCalories += meal.calories;
+    if(overflowCal > 0) {
+        overflowCal+=meal.calories;
+        document.getElementById('calorie-display').innerHTML = "<h2>Calorie Goal Complete (Overflow: " + overflowCal + ")</h2>";
+    } else if(calorieInput-meal.calories < 0) {
+        overflowCal = meal.calories - calorieInput;
+        document.getElementById('calorie-display').innerHTML = "<h2>Calorie Goal Complete (Overflow: " + overflowCal + ")</h2>";
+    } else {
+        calorieInput -= meal.calories;
+    document.getElementById('calorie-display').innerHTML = "<h2>Remaining Calories: " + calorieInput + "</h2>";
+    }
+}
+
+document.querySelector('.search-input').addEventListener('focus', e => {
+    document.querySelector('#modal-title').style.display = 'none';
+    document.querySelector('#meal-options').style.display = 'none';
+})
+
+function filterMeals() {
+        const input = document.getElementById('meal-search').value.toLowerCase();
+        const mealOptions = document.getElementById('meal-options');
+
+        // Determine the current meal type from the modal title
+        const modalTitle = document.getElementById('modal-title').textContent;
+        const mealType = modalTitle.split(' ')[1].toLowerCase();
+
+        // Clear current options
+        mealOptions.innerHTML = '';
+
+        // Re-add the placeholder option
+        const placeholderOption = document.createElement('option');
+        placeholderOption.value = '';
+        placeholderOption.textContent = 'Select a meal...';
+        placeholderOption.disabled = true;
+        placeholderOption.selected = true;
+        mealOptions.appendChild(placeholderOption);
+
+        // Create optgroups again
+        const vegGroup = document.createElement('optgroup');
+        vegGroup.label = 'Veg';
+
+        const nonVegGroup = document.createElement('optgroup');
+        nonVegGroup.label = 'Non-Veg';
+
+        // Fetch the relevant meals from allMeals
+        const vegMeals = allMeals[mealType]?.veg || [];
+        const nonVegMeals = allMeals[mealType]?.nonVeg || [];
+
+        // Filter Veg meals
+        vegMeals.forEach(meal => {
+            if (meal.name.toLowerCase().includes(input)) {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(meal);
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                vegGroup.appendChild(option);
+            }
+        });
+
+        // Filter Non-Veg meals
+        nonVegMeals.forEach(meal => {
+            if (meal.name.toLowerCase().includes(input)) {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(meal);
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                nonVegGroup.appendChild(option);
+            }
+        });
+
+        // Append optgroups only if they have options
+        if (vegGroup.children.length > 0) {
+            mealOptions.appendChild(vegGroup);
+        }
+        if (nonVegGroup.children.length > 0) {
+            mealOptions.appendChild(nonVegGroup);
+        }
+
+        // If no meals match the search, provide feedback
+        if (vegGroup.children.length === 0 && nonVegGroup.children.length === 0) {
+            const noOption = document.createElement('option');
+            noOption.value = '';
+            noOption.textContent = 'No meals found.';
+            noOption.disabled = true;
+            mealOptions.appendChild(noOption);
+        }
+    }
+
+
+    function updateMealList() {
+        const breakfastList = document.querySelector('.break-list');
+        breakfastList.innerHTML = '';
+        const lunchList = document.querySelector('.lunch-list');
+        lunchList.innerHTML = '';
+        const eveningList = document.querySelector('.evening-list');
+        eveningList.innerHTML = '';
+        const dinnerList = document.querySelector('.dinner-list');
+        dinnerList.innerHTML = '';
+
+        for (const [mealType, meals] of Object.entries(mealData)) {
+            meals.forEach(meal => {
+                const li = document.createElement('li');
+                li.textContent = `-${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                switch(mealType) {
+                    case "breakfast":
+                        document.getElementById('breakfast').style.display = "block";
+                        breakfastList.appendChild(li);
+                        break;
+                    case "lunch":
+                    document.getElementById('lunch').style.display = "block";
+                        lunchList.appendChild(li);
+                        break;
+                    case "evening-snacks":
+                    document.getElementById('evening').style.display = "block";
+                        eveningList.appendChild(li);
+                        break;
+                    case "dinner":
+                    document.getElementById('dinner').style.display = "block";
+                        dinnerList.appendChild(li)
+                        break;
+                }
+            });
+        }
+    }
+document.getElementById('download-button').addEventListener('click', function() {
+    let textContent = "";
+    let flag = 0;
+
+    for(const[mealType, items] of Object.entries(mealData)) {
+        if(items.length==0) flag++;
+    }
+
+    if(flag==4) {
+        alert('Please select at least 1 meal');
+    } else {
+    // Format the text content by meal type, including the recipe for each selected meal
+    for (const [mealType, items] of Object.entries(mealData)) {
+    let table;
+    let tbody;
+    if (items.length > 0) {
+        if (mealType === "breakfast") {
+            table = document.querySelector('#breakfast-table');
+        } else if (mealType === "lunch") {
+            table = document.querySelector('#lunch-table');
+        } else if (mealType === "evening-snacks") {
+            table = document.querySelector('#evening-snack-table');
+        } else {
+            table = document.querySelector('#dinner-table');
+        }
+
+        // Find the tbody
+        tbody = table.querySelector('tbody');
+        const type = mealType.toUpperCase();
+        console.log(type)
+        tbody.innerHTML += `
+            <tr>
+                <th rowspan="${items.length}" style="background-color: ${(type==="BREAKFAST" || type==="EVENING-SNACKS") ? "rgb(208,221,203)" : "rgb(236,231,221)"}">${type}</th>
+                <td>${items[0].name} (Calories: ${items[0].calories} Proteins: ${items[0].protein} Carbs: ${items[0].carbs} Fats: ${items[0].fats})</td>
+            </tr>
+        `;
+        for (let i = 1; i < items.length; i++) {
+            tbody.innerHTML += `<tr>
+                <td>${items[i].name} (Calories: ${items[i].calories} Proteins: ${items[i].protein} Carbs: ${items[i].carbs} Fats: ${items[i].fats})</td>
+            </tr>`;
+        }
+    }
+}
+
+    const table = document.getElementById('hidden-table');
+    let th2 = table.querySelector('h2');
+
+    th2.innerHTML = `
+        Input Calories = ${inpCal}<br/>
+        Total Calories Selected = ${totalCalories}<br/>
+        ${overflowCal>0 ? "Overflow Calories = " + overflowCal : ""}
+    `
+            const date = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
+            // Temporarily make the table visible
+            table.style.display = 'block';
+            
+            // Use html2pdf to convert the table to PDF
+            const opt = {
+                margin:       0.2,
+                filename:     `Meal Plan(${date}) by FitForLife365.pdf`,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 3, dpi: 300, letterRendering: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            
+            html2pdf().from(table).set(opt).save().then(() => {
+                // After PDF generation, hide the table again
+                document.querySelectorAll('#hidden-table table').forEach(table => {
+                    table.querySelector('tbody').innerHTML = "";
+                })
+                console.log(document.querySelector('#hidden-table'));
+                table.style.display = 'none';
+            });
+}
+});
+
+
+    </script>
 </body>
 </html>
