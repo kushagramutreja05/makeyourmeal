@@ -222,18 +222,140 @@
     "evening-snacks": {
       "veg": [
         {
-          "name": "Evening Snack Item 1"
+          "name": "Paneer Tikka Wrap",
+          "calories": 320,
+          "protein": 14,
+          "carbs": 35,
+          "fats": 12,
+          "quantity": "1 wrap (200g)"
         },
         {
-          "name": "Evening Snack Item 2"
+          "name": "Moong Dal Chilla",
+          "calories": 180,
+          "protein": 9,
+          "carbs": 28,
+          "fats": 4,
+          "quantity": "2 chillas (150g)"
+        },
+        {
+          "name": "Masala Sweet Potato Chaat",
+          "calories": 200,
+          "protein": 3,
+          "carbs": 44,
+          "fats": 0.5,
+          "quantity": "1 bowl (150g)"
+        },
+        {
+          "name": "Vegetable Poha",
+          "calories": 250,
+          "protein": 5,
+          "carbs": 50,
+          "fats": 6,
+          "quantity": "1 plate (180g)"
+        },
+        {
+          "name": "Corn and Spinach Sandwich",
+          "calories": 280,
+          "protein": 10,
+          "carbs": 38,
+          "fats": 8,
+          "quantity": "1 sandwich (150g)"
+        },{
+          "name": "Spicy Masala Peanuts",
+          "calories": 220,
+          "protein": 9,
+          "carbs": 12,
+          "fats": 16,
+          "quantity": "1 bowl (50g)"
+        },
+        {
+          "name": "Cucumber and Hummus Bites",
+          "calories": 100,
+          "protein": 3,
+          "carbs": 12,
+          "fats": 5,
+          "quantity": "1 serving (100g)"
+        },
+        {
+          "name": "Makhana (Fox Nuts) Roasted with Spices",
+          "calories": 150,
+          "protein": 5,
+          "carbs": 14,
+          "fats": 8,
+          "quantity": "1 bowl (50g)"
+        },
+        {
+          "name": "Mixed Vegetable Upma",
+          "calories": 240,
+          "protein": 6,
+          "carbs": 40,
+          "fats": 8,
+          "quantity": "1 plate (200g)"
         }
       ],
       "nonVeg": [
         {
-          "name": "Evening Snack Item 1"
+          "name": "Spiced Chicken Lettuce Wraps",
+          "calories": 220,
+          "protein": 18,
+          "carbs": 5,
+          "fats": 14,
+          "quantity": "1 wrap (150g)"
         },
         {
-          "name": "Evening Snack Item 2"
+          "name": "Fish Tikka Bites",
+          "calories": 200,
+          "protein": 22,
+          "carbs": 4,
+          "fats": 10,
+          "quantity": "1 serving (150g)"
+        },
+        {
+          "name": "Chicken and Egg Salad",
+          "calories": 250,
+          "protein": 20,
+          "carbs": 5,
+          "fats": 16,
+          "quantity": "1 bowl (180g)"
+        },{
+          "name": "Egg Bhurji with Toast",
+          "calories": 320,
+          "protein": 15,
+          "carbs": 30,
+          "fats": 16,
+          "quantity": "1 serving (180g)"
+        },
+        {
+          "name": "Chicken Salad Wrap",
+          "calories": 340,
+          "protein": 20,
+          "carbs": 28,
+          "fats": 12,
+          "quantity": "1 wrap (200g)"
+        },
+        {
+          "name": "Tuna and Cucumber Sandwich",
+          "calories": 250,
+          "protein": 22,
+          "carbs": 28,
+          "fats": 8,
+          "quantity": "1 sandwich (150g)"
+        },
+        {
+          "name": "Grilled Chicken Skewers",
+          "calories": 270,
+          "protein": 24,
+          "carbs": 10,
+          "fats": 14,
+          "quantity": "1 skewer (150g)"
+        },
+        {
+          "name": "Egg Muffins",
+          "calories": 190,
+          "protein": 10,
+          "carbs": 6,
+          "fats": 14,
+          "quantity": "2 muffins (120g)"
         }
       ]
     },
