@@ -447,7 +447,7 @@ table {
         </div>
     </div>
     <div id="hidden-table">
-        <h1><span style="color: rgb(54,78,79)">FitForLife 365</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
+        <h1><span style="color: rgb(54,78,79)">9oFive</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
         <h2></h2>
         <table id="breakfast-table">
             <tbody></tbody>
@@ -538,7 +538,7 @@ let totalCalories = 0;
                 vegMeals.forEach(meal => {
                     const option = document.createElement('option');
                     option.value = JSON.stringify(meal); // Store meal details as JSON string
-                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
                     vegGroup.appendChild(option);
                 });
 
@@ -546,7 +546,7 @@ let totalCalories = 0;
                 nonVegMeals.forEach(meal => {
                     const option = document.createElement('option');
                     option.value = JSON.stringify(meal); // Store meal details as JSON string
-                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                    option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
                     nonVegGroup.appendChild(option);
                 });
 
@@ -663,7 +663,7 @@ function filterMeals() {
             if (meal.name.toLowerCase().includes(input)) {
                 const option = document.createElement('option');
                 option.value = JSON.stringify(meal);
-                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
                 vegGroup.appendChild(option);
             }
         });
@@ -673,7 +673,7 @@ function filterMeals() {
             if (meal.name.toLowerCase().includes(input)) {
                 const option = document.createElement('option');
                 option.value = JSON.stringify(meal);
-                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                option.textContent = `${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
                 nonVegGroup.appendChild(option);
             }
         });
@@ -710,7 +710,7 @@ function filterMeals() {
         for (const [mealType, meals] of Object.entries(mealData)) {
             meals.forEach(meal => {
                 const li = document.createElement('li');
-                li.textContent = `-${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats})`;
+                li.textContent = `-${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
                 switch(mealType) {
                     case "breakfast":
                         document.getElementById('breakfast').style.display = "block";
@@ -765,12 +765,12 @@ document.getElementById('download-button').addEventListener('click', function() 
         tbody.innerHTML += `
             <tr>
                 <th rowspan="${items.length}" style="background-color: ${(type==="BREAKFAST" || type==="EVENING-SNACKS") ? "rgb(208,221,203)" : "rgb(236,231,221)"}">${type}</th>
-                <td>${items[0].name} (Calories: ${items[0].calories} Proteins: ${items[0].protein} Carbs: ${items[0].carbs} Fats: ${items[0].fats})</td>
+                <td>${items[0].name} (Calories: ${items[0].calories} Proteins: ${items[0].protein} Carbs: ${items[0].carbs} Fats: ${items[0].fats} Quantity: ${items[0].quantity})</td>
             </tr>
         `;
         for (let i = 1; i < items.length; i++) {
             tbody.innerHTML += `<tr>
-                <td>${items[i].name} (Calories: ${items[i].calories} Proteins: ${items[i].protein} Carbs: ${items[i].carbs} Fats: ${items[i].fats})</td>
+                <td>${items[i].name} (Calories: ${items[i].calories} Proteins: ${items[i].protein} Carbs: ${items[i].carbs} Fats: ${items[i].fats} Quantity: ${items[0].quantity})</td>
             </tr>`;
         }
     }
