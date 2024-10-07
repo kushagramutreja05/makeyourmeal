@@ -136,6 +136,32 @@
           "quantity": "2 bowls"
         },
         {
+          "name": "Mixed Vegetable Stir-Fry",
+          "calories": 200,
+          "protein": 5,
+          "carbs": 20,
+          "fats": 10,
+          "quantity": "1 cup (150g)"
+        },
+        {
+          "name": "Aloo Gobi",
+          "calories": 270,
+          "protein": 6,
+          "carbs": 45,
+          "fats": 8,
+          "quantity": "1 medium Potato (100g)"
+        },
+        
+        
+        {
+          "name": "Chickpea Curry (Chana Masala)",
+          "calories": 295,
+          "protein": 15,
+          "carbs": 45,
+          "fats": 8,
+          "quantity": "1 cup (150g)"
+        },
+        {
           "name": "Rice",
           "calories": 581,
           "protein": 32.2,
@@ -229,6 +255,7 @@
           "fats": 12,
           "quantity": "1 wrap (200g)"
         },
+
         {
           "name": "Moong Dal Chilla",
           "calories": 180,
@@ -284,6 +311,15 @@
           "fats": 8,
           "quantity": "1 bowl (50g)"
         },
+        {
+          "name": "Paneer Tikka",
+          "calories": 350,
+          "protein": 23,
+          "carbs": 15,
+          "fats": 20,
+          "quantity": "100g"
+        },
+        
         {
           "name": "Mixed Vegetable Upma",
           "calories": 240,
@@ -370,6 +406,15 @@
           "quantity": "2 pieces"
         },
         {
+          "name": "Vegetable Biryani",
+          "calories": 430,
+          "protein": 8,
+          "carbs": 75,
+          "fats": 12,
+          "quantity": "½ cup Basmati Rice (92.5g), ½ cup Mixed Vegetables (75g)"
+        },
+        
+        {
           "name": "Paneer Tikka",
           "calories": 344,
           "protein": 20,
@@ -384,33 +429,93 @@
           "carbs": 37.4,
           "fats": 4.7,
           "quantity": "1.5 cups"
-        }
-      ],
-      "nonVeg": [
-        {
-          "name": "Chicken Curry",
-          "calories": 320,
-          "protein": 31,
-          "carbs": 11,
-          "fats": 17,
-          "quantity": "300gm"
         },
         {
-          "name": "Egg Curry",
-          "calories": 298,
-          "protein": 21.5,
-          "carbs": 14,
-          "fats": 17,
-          "quantity": "3 eggs"
-        },
-        {
-          "name": "Baked Chicken",
-          "calories": 255,
-          "protein": 42.4,
-          "carbs": 0.3,
+          "name": "Vegetable Khichdi",
+          "calories": 365,
+          "protein": 13,
+          "carbs": 65,
           "fats": 8,
-          "quantity": "200gm"
+          "quantity": "½ cup Basmati Rice (45g), ¼ cup Moong Dal (25g), ½ cup Mixed Vegetables"
         }
+        
+      ],
+      "nonVeg": 
+        [
+          {
+            "name": "Chicken Curry",
+            "calories": 350,
+            "protein": 30,
+            "carbs": 10,
+            "fats": 20,
+            "quantity": "125g Chicken, ½ medium Onion (50g), ½ medium Tomato (50g)"
+          },
+          {
+            "name": "Egg Fried Rice",
+            "calories": 450,
+            "protein": 18,
+            "carbs": 60,
+            "fats": 15,
+            "quantity": "1 cup Cooked Rice (150g), 1 large Egg (50g), ½ cup Mixed Vegetables (75g)"
+          },
+          {
+            "name": "Mutton Rogan Josh",
+            "calories": 500,
+            "protein": 40,
+            "carbs": 15,
+            "fats": 35,
+            "quantity": "125g Mutton, ½ medium Onion (50g), ½ medium Tomato (50g)"
+          },
+          {
+            "name": "Fish Curry",
+            "calories": 400,
+            "protein": 35,
+            "carbs": 10,
+            "fats": 25,
+            "quantity": "125g Fish, ½ medium Onion (50g), ½ medium Tomato (50g), 60ml Coconut Milk"
+          },
+          {
+            "name": "Grilled Chicken Breast",
+            "calories": 350,
+            "protein": 62,
+            "carbs": 0,
+            "fats": 10,
+            "quantity": "150g Chicken Breast"
+          },
+          {
+            "name": "Prawn Masala",
+            "calories": 380,
+            "protein": 30,
+            "carbs": 10,
+            "fats": 25,
+            "quantity": "125g Prawns, ½ medium Onion (50g), ½ medium Tomato (50g), 60ml Coconut Milk"
+          },
+        
+        
+          {
+            "name": "Chicken Curry",
+            "calories": 320,
+            "protein": 31,
+            "carbs": 11,
+            "fats": 17,
+            "quantity": "300gm"
+          },
+          {
+            "name": "Egg Curry",
+            "calories": 298,
+            "protein": 21.5,
+            "carbs": 14,
+            "fats": 17,
+            "quantity": "3 eggs"
+          },
+          {
+            "name": "Baked Chicken",
+            "calories": 255,
+            "protein": 42.4,
+            "carbs": 0.3,
+            "fats": 8,
+            "quantity": "200gm"
+          }
       ]
     }
   }
