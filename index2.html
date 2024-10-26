@@ -361,107 +361,106 @@ table {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="image-container">
-            <img src="./images/bg.jpeg" alt="bg">
-        </div>
-         <!-- Calorie input container -->
-         <div class="calorie-container">
-            <h2>Enter Your Daily Calorie Intake</h2>
-            <input type="number" id="calories-input" placeholder="Enter your calories">
-            <button id="submit-calorie" type="button">Submit</button> 
-            <a href="https://kushagramutreja05-tdecalculator-tdeapp-qo8weh.streamlit.app" target="_blank">
-                Calculate your calories
-            </a>
-           
-        </div>
-        <div class="meal-container">
-            <div class="meal-card-wrapper">
-                <div class="meal-card" style="background-image: url('images/breakfast.jpg');">
-                    <img src="images/breakfast.jpg" alt="Breakfast">
-                    <button onclick="openModal('breakfast')">Add Meal</button>
-                </div>
-                <div class="meal-text">Breakfast</div>
+    <body>
+        <div class="container">
+            <div class="image-container">
+                <img src="./images/bg.jpeg" alt="bg">
             </div>
-            <div class="meal-card-wrapper">
-                <div class="meal-card" style="background-image: url('images/lunch.jpg');">
-                    <img src="images/lunch.jpg" alt="Lunch">
-                    <button onclick="openModal('lunch')">Add Meal</button>
-                </div>
-                <div class="meal-text">Lunch</div>
+            <!-- Calorie input container -->
+            <div class="calorie-container">
+                <h2>Enter Your Daily Calorie Intake</h2>
+                <input type="number" id="calories-input" placeholder="Enter your calories">
+                <button id="submit-calorie" type="button">Submit</button> 
+                <a href="https://kushagramutreja05-tdecalculator-tdeapp-qo8weh.streamlit.app" target="_blank">
+                    Calculate your calories
+                </a>
             </div>
-            <div class="meal-card-wrapper">
-                <div class="meal-card" style="background-image: url('images/evening-snacks.jpg');">
-                    <img src="images/evening-snacks.jpg" alt="Evening Snacks">
-                    <button onclick="openModal('evening-snacks')">Add Meal</button>
+            <div class="meal-container">
+                <div class="meal-card-wrapper">
+                    <div class="meal-card" style="background-image: url('images/breakfast.jpg');">
+                        <img src="images/breakfast.jpg" alt="Breakfast">
+                        <button onclick="openModal('breakfast')">Add Meal</button>
+                    </div>
+                    <div class="meal-text">Breakfast</div>
                 </div>
-                <div class="meal-text">Evening Snacks</div>
-            </div>
-            <div class="meal-card-wrapper">
-                <div class="meal-card" style="background-image: url('images/dinner.jpg');">
-                    <img src="images/dinner.jpg" alt="Dinner">
-                    <button onclick="openModal('dinner')">Add Meal</button>
+                <div class="meal-card-wrapper">
+                    <div class="meal-card" style="background-image: url('images/lunch.jpg');">
+                        <img src="images/lunch.jpg" alt="Lunch">
+                        <button onclick="openModal('lunch')">Add Meal</button>
+                    </div>
+                    <div class="meal-text">Lunch</div>
                 </div>
-                <div class="meal-text">Dinner</div>
+                <div class="meal-card-wrapper">
+                    <div class="meal-card" style="background-image: url('images/evening-snacks.jpg');">
+                        <img src="images/evening-snacks.jpg" alt="Evening Snacks">
+                        <button onclick="openModal('evening-snacks')">Add Meal</button>
+                    </div>
+                    <div class="meal-text">Evening Snacks</div>
+                </div>
+                <div class="meal-card-wrapper">
+                    <div class="meal-card" style="background-image: url('images/dinner.jpg');">
+                        <img src="images/dinner.jpg" alt="Dinner">
+                        <button onclick="openModal('dinner')">Add Meal</button>
+                    </div>
+                    <div class="meal-text">Dinner</div>
+                </div>
             </div>
-        </div>
-
-        <div class="bottom-right-container">
-            <h2>Selected Meals</h2>
-            <div id="calorie-display"></div>
-            <h3 id="breakfast">Breakfast</h3>
-                <ul id="meal-list" class="break-list">
-                    <!-- List of selected meals will appear here -->
+    
+            <div class="bottom-right-container">
+                <h2>Selected Meals</h2>
+                <div id="calorie-display"></div>
+                <h3 id="breakfast">Breakfast</h3>
+                <ul id="breakfast-list" class="break-list">
+                    <!-- List of selected breakfast meals will appear here -->
                 </ul>
                 <h3 id="lunch">Lunch</h3>
-                <ul id="meal-list" class="lunch-list">
-                    <!-- List of selected meals will appear here -->
+                <ul id="lunch-list" class="lunch-list">
+                    <!-- List of selected lunch meals will appear here -->
                 </ul>
                 <h3 id="evening">Evening Snacks</h3>
-                <ul id="meal-list" class="evening-list">
-                    <!-- List of selected meals will appear here -->
+                <ul id="evening-list" class="evening-list">
+                    <!-- List of selected evening snacks will appear here -->
                 </ul>
                 <h3 id="dinner">Dinner</h3>
-                <ul id="meal-list" class="dinner-list">
-                    <!-- List of selected meals will appear here -->
+                <ul id="dinner-list" class="dinner-list">
+                    <!-- List of selected dinner meals will appear here -->
                 </ul>
                 <button id="download-button">Download Meals</button>
+            </div>
         </div>
-
-    </div>
     
-
-    <!-- Modal for meal selection -->
-    <div id="meal-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="search-container">
-                <input type="text" id="meal-search" class="search-input" placeholder="Search for meals..." oninput="filterMeals()">
-                <button class="search-button">Search</button>
-              </div>
-            <h2 id="modal-title">Select Meal</h2>
-            <select id="meal-options">
-                <!-- Options will be populated dynamically -->
-            </select>
-            <button onclick="addMeal()">Add Meal</button>
+        <!-- Modal for meal selection -->
+        <div id="meal-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="search-container">
+                    <input type="text" id="meal-search" class="search-input" placeholder="Search for meals..." oninput="filterMeals()">
+                    <button class="search-button">Search</button>
+                </div>
+                <h2 id="modal-title">Select Meal</h2>
+                <select id="meal-options">
+                    <!-- Options will be populated dynamically -->
+                </select>
+                <button onclick="addMeal()">Add Meal</button>
+            </div>
         </div>
-    </div>
-    <div id="hidden-table">
-        <h1><span style="color: rgb(54,78,79)">9oFive</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
-        <h2></h2>
-        <table id="breakfast-table">
-            <tbody></tbody>
-        </table>
-        <table id="lunch-table">
-            <tbody></tbody>
-        </table>
-        <table id="evening-snack-table">
-            <tbody></tbody>
-        </table>
-        <table id="dinner-table">
-            <tbody></tbody>
-        </table>
-    </div>
+        <div id="hidden-table">
+            <h1><span style="color: rgb(54,78,79)">9oFive</span> - <span id="mp" style="color: rgb(49,114,72)">Meal Planner</span></h1>
+            <h2></h2>
+            <table id="breakfast-table">
+                <tbody></tbody>
+            </table>
+            <table id="lunch-table">
+                <tbody></tbody>
+            </table>
+            <table id="evening-snack-table">
+                <tbody></tbody>
+            </table>
+            <table id="dinner-table">
+                <tbody></tbody>
+            </table>
+        </div>
+    
 
     <script>
         const mealData = {
@@ -519,7 +518,21 @@ let totalCalories = 0;
         nonVegGroup.label = 'Non-Veg';
 
         // Fetch meal options dynamically
-        fetch('meals.json')
+        populateMeals(vegGroup, nonVegGroup, mealOptions, mealType);
+
+        modal.style.display = 'flex'; // Make sure the modal is visible
+
+        // Event listener to remove the placeholder option when a meal is selected
+        mealOptions.addEventListener('change', () => {
+            if (placeholderOption) {
+                placeholderOption.remove(); // Remove the placeholder
+            }
+        });
+    }
+
+
+function populateMeals(vegGroup, nonVegGroup, mealOptions, mealType) {
+    fetch('meals.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -557,23 +570,16 @@ let totalCalories = 0;
             .catch(error => {
                 console.error('Error fetching meal data:', error);
             });
-
-        modal.style.display = 'flex'; // Make sure the modal is visible
-
-        // Event listener to remove the placeholder option when a meal is selected
-        mealOptions.addEventListener('change', () => {
-            if (placeholderOption) {
-                placeholderOption.remove(); // Remove the placeholder
-            }
-        });
-    }
-
-
+}
 
 
 
 function closeModal() {
     document.getElementById('meal-modal').style.display = 'none';
+    document.getElementById('meal-options').innerHTML = '';
+    document.querySelectorAll('select').forEach(select => {
+        select.style.display='block';
+    })
 }
 
 document.querySelector('.search-button').addEventListener('click', e => {
@@ -698,40 +704,44 @@ function filterMeals() {
 
 
     function updateMealList() {
-        const breakfastList = document.querySelector('.break-list');
-        breakfastList.innerHTML = '';
-        const lunchList = document.querySelector('.lunch-list');
-        lunchList.innerHTML = '';
-        const eveningList = document.querySelector('.evening-list');
-        eveningList.innerHTML = '';
-        const dinnerList = document.querySelector('.dinner-list');
-        dinnerList.innerHTML = '';
+    const breakfastList = document.getElementById('breakfast-list');
+    const lunchList = document.getElementById('lunch-list');
+    const eveningList = document.getElementById('evening-list');
+    const dinnerList = document.getElementById('dinner-list');
 
-        for (const [mealType, meals] of Object.entries(mealData)) {
-            meals.forEach(meal => {
-                const li = document.createElement('li');
-                li.textContent = `-${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
-                switch(mealType) {
-                    case "breakfast":
-                        document.getElementById('breakfast').style.display = "block";
-                        breakfastList.appendChild(li);
-                        break;
-                    case "lunch":
-                    document.getElementById('lunch').style.display = "block";
-                        lunchList.appendChild(li);
-                        break;
-                    case "evening-snacks":
-                    document.getElementById('evening').style.display = "block";
-                        eveningList.appendChild(li);
-                        break;
-                    case "dinner":
-                    document.getElementById('dinner').style.display = "block";
-                        dinnerList.appendChild(li)
-                        break;
-                }
-            });
-        }
+    // Clear existing lists
+    breakfastList.innerHTML = '';
+    lunchList.innerHTML = '';
+    eveningList.innerHTML = '';
+    dinnerList.innerHTML = '';
+
+    for (const [mealType, meals] of Object.entries(mealData)) {
+        meals.forEach(meal => {
+            const li = document.createElement('li');
+            li.textContent = `- ${meal.name} (Calories: ${meal.calories} Proteins: ${meal.protein} Carbs: ${meal.carbs} Fats: ${meal.fats} Quantity: ${meal.quantity})`;
+
+            switch (mealType) {
+                case 'breakfast':
+                    document.getElementById('breakfast').style.display = 'block';
+                    breakfastList.appendChild(li);
+                    break;
+                case 'lunch':
+                    document.getElementById('lunch').style.display = 'block';
+                    lunchList.appendChild(li);
+                    break;
+                case 'evening-snacks':
+                    document.getElementById('evening').style.display = 'block';
+                    eveningList.appendChild(li);
+                    break;
+                case 'dinner':
+                    document.getElementById('dinner').style.display = 'block';
+                    dinnerList.appendChild(li);
+                    break;
+            }
+        });
     }
+}
+
 document.getElementById('download-button').addEventListener('click', function() {
     let textContent = "";
     let flag = 0;
